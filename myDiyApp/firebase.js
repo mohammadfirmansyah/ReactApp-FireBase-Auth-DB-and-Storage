@@ -2,24 +2,22 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "@firebase/auth";
 import { getFirestore } from 'firebase/firestore';
-// Uncomment the below line if you want to try the app with Firebase app storage
-// You must have upgraded your Firebae account to use this
-// import { getStorage } from 'firebase/storage';
-
+import { getStorage } from 'firebase/storage';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "",
-  authDomain: "",
-  projectId: "",
-  storageBucket: "",
-  messagingSenderId: "",
-  appId: ""
+  apiKey: "AIzaSyBohLJA2NyrD4-kkgpB_kzaqHZwXYh4wHs",
+  authDomain: "mydiyapp-59552.firebaseapp.com",
+  projectId: "mydiyapp-59552",
+  storageBucket: "mydiyapp-59552.firebasestorage.app",
+  messagingSenderId: "1008602274323",
+  appId: "1:1008602274323:web:7241e636dfac813a7e3de6"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+// Export Firebase services for use in the app
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-// Uncomment the below line if you are trying the app with Firebase app storage
-// export const storage = getStorage(app);
+export const storage = getStorage(app);

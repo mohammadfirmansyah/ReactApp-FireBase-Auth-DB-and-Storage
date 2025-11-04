@@ -15,9 +15,34 @@ const DiyHackDetailScreen = ({ route }) => {
 
   return (
     <View style={{ padding: 20}}>
-
-  {/* Add the code to display the DIY hack detail*/}
-  
+      <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 10 }}>
+        {diyHack.title}
+      </Text>
+      
+      <Text style={{ fontSize: 18, fontWeight: 'bold', marginTop: 10 }}>
+        Materials Required:
+      </Text>
+      <FlatList
+        data={materialRequired}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <Text style={{ fontSize: 16, marginLeft: 10 }}>• {item}</Text>
+        )}
+      />
+      
+      <Text style={{ fontSize: 18, fontWeight: 'bold', marginTop: 10 }}>
+        Instructions:
+      </Text>
+      <Text style={{ fontSize: 16, marginTop: 5 }}>
+        {diyHack.instructions}
+      </Text>
+      
+      {diyHack.imageUrl && (
+        <Image 
+          source={{ uri: diyHack.imageUrl }} 
+          style={styles.uploadedImage}
+        />
+      )}
     </View>
   );
 };

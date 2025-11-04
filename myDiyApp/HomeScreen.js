@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Pressable, StyleSheet } from 'react-native';
 import { db } from './firebase';
 import { useFocusEffect } from '@react-navigation/native';
@@ -9,7 +9,42 @@ const HomeScreen = ({ navigation }) => {
   const [diyHacks, setDiyHacks] = useState([]);
   const [isPressed, setIsPressed] = useState(false);
 
-//Add code to fetch the DIY hacks and set the states
+  // Fetch DIY hacks from Firestore database
+  const fetchDiyHacks = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, "diyHacks"));
+      const hacks = [];
+      querySnapshot.forEach((doc) => {
+        const hack = doc.data();
+        hack.id = doc.id;
+        // Handle both old format (materialsRequired string) and new format (materialsAsArr array)
+        if (!hack.materialsAsArr && hack.materialsRequired) {
+          // Old format: convert string to array
+          hack.materialsAsArr = hack.materialsRequired.split(',').map(item => item.trim());
+        } else if (!hack.materialsAsArr) {
+          // No materials data
+          hack.materialsAsArr = [];
+        }
+        hacks.push(hack);
+      });
+      setDiyHacks(hacks);
+    } catch (error) {
+      console.error('Error fetching DIY hacks:', error);
+      alert('Failed to load DIY hacks. Please try again.');
+    }
+  };
+
+  // Fetch data when screen loads
+  useEffect(() => {
+    fetchDiyHacks();
+  }, []);
+
+  // Refetch data when screen comes into focus (after adding new hack)
+  useFocusEffect(
+    useCallback(() => {
+      fetchDiyHacks();
+    }, [])
+  );
   
   const addDIYHack = async ()=>{
     navigation.navigate('AddDiyHack')

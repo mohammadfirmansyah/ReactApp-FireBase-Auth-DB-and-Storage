@@ -21,7 +21,17 @@ export default function App() {
 
   const {user} = useAuthentication();
 
-  //Add a function to return logout button
+  // Handle logout function - signs out user from Firebase Auth
+  const handleLogout = () => {
+    signOut(auth);
+  };
+
+  // Return logout button component for navigation header
+  const logoutButton = () => (
+    <Pressable onPress={handleLogout} style={{ marginRight: 10 }}>
+      <Text style={{ color: 'blue', fontSize: 16 }}>Logout</Text>
+    </Pressable>
+  );
   
   if (user){
     return (
